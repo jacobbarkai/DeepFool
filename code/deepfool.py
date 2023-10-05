@@ -1,18 +1,22 @@
 import torch
 
-def deepfool(image, net, num_classes=10, overshoot=0.02, max_iter=50):
+def deepfool(image, net, num_classes=20, overshoot=0.02, max_iter=50):
     """
     DeepFool adversarial attack.
     
-    Parameters:
-    - image: Image tensor of size CxHxW.
-    - net: Network (input: images, output: values of activation **BEFORE** softmax).
-    - num_classes: Number of classes to test against (default = 10).
-    - overshoot: Used as a termination criterion to prevent vanishing updates (default = 0.02).
-    - max_iter: Maximum number of iterations for deepfool (default = 50).
+    Args:
+    - image (torch.Tensor): Image tensor of size CxHxW.
+    - net (torch.nn.Module): Network (input: images, output: values of activation **BEFORE** softmax).
+    - num_classes (int, optional): Number of classes to test against. Defaults to 20.
+    - overshoot (float, optional): Used as a termination criterion to prevent vanishing updates. Defaults to 0.02.
+    - max_iter (int, optional): Maximum number of iterations for deepfool. Defaults to 50.
     
     Returns:
-    - Minimal perturbation that fools the classifier, number of iterations, original label, new estimated label, and perturbed image.
+    - torch.Tensor: Minimal perturbation that fools the classifier.
+    - int: Number of iterations.
+    - int: Original label.
+    - int: New estimated label.
+    - torch.Tensor: Perturbed image.
     """
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -51,7 +55,7 @@ def deepfool(image, net, num_classes=10, overshoot=0.02, max_iter=50):
                 w_k = w
 
         r_i = (pert + 1e-4) * w_k / torch.norm(w_k)
-        perturbation += r_i
+        perturbation += (1 + overshoot) * r_i
 
     perturbed_image = image + perturbation
     return perturbation.detach(), _, original_label, label, perturbed_image.detach()

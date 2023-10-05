@@ -1,50 +1,17 @@
 # DeepFool Adversarial Attack 
 
-This python code is based on the DeepFool adversarial attack implementation by LTS4 [[1]](https://github.com/LTS4/DeepFool), with vast amount of refactoring in the deepfool.py and test_deepfool.py Files.
+This project is a PyTorch implementation of the DeepFool adversarial attack algorithm proposed in the paper: S. Moosavi-Dezfooli, A. Fawzi, P. Frossard: *DeepFool: a simple and accurate method to fool deep neural networks*.  In Computer Vision and Pattern Recognition (CVPR ’16), IEEE, 2016.
 
-The algorithm proposed in [[2]](http://arxiv.org/pdf/1511.04599) is an iterative and efficient method to generate adversarial images. The code provided here is a simple implementation of the algorithm in PyTorch.
+## The project consists of these files:
 
-## What's New in the deepfool.py File?
+- `deepfool.py`: The main implementation of the DeepFool algorithm.
+- `test_deepfool.py`: A script for testing the DeepFool algorithm on a sample image. The ResNet-34 model used for classification is pretrained 
+- `resize_and_crop.py`: A script for resizing and cropping images to size of 224x224, as requied by the ResNet-34 model. This size is required for the pretrained model to work properly.
 
-### Enhanced Device Handling:
-- **Streamlined CUDA Handling**: The new implementation uses the `torch.device` method for more streamlined handling of CUDA availability.
-- **Automatic Device Assignment**: The image and model are automatically moved to the appropriate device (either GPU or CPU) without the need for explicit checks.
+## Image source
+The images in this project are taken from the Wikimedia Commons. The original images (before getting resized and cropped) are available at the following links:
 
-### Image Input Shape:
-- **PyTorch Standard**: The updated code expects the image to be of shape CxHxW (channels first), which is more in line with PyTorch's standard conventions.
-
-### Gradient Computation:
-- **PyTorch-native Approach**: The new code leverages `torch.autograd.grad` for gradient computation, providing a more direct approach.
-
-### Reduced Dependency on Numpy:
-- **Consistency**: The updated implementation minimizes the switching between PyTorch tensors and numpy arrays, making the code more consistent and potentially faster.
-
-### Improved Cloning:
-- **Better Compatibility**: Instead of using `copy.deepcopy`, the new code utilizes the `clone` method of a tensor for creating image copies.
-
-### Enhanced Documentation:
-- **Clarity**: The first file comes with a more detailed docstring and inline comments, making it easier for users to understand the purpose and functionality of each segment of the code.
-
-
-## What's New in the test_deepfool.py File?
-
-### **User Interactivity**:
-- **Dynamic Image Input**: Users can now input any image filename, making the script more versatile compared to the hardcoded filename in the previous version.
-
-### **Modularity**:
-- **Separate Testing Function**: The new script introduces the `test_deepfool` function, allowing for easier reuse and modification of the DeepFool testing process.
-
-### **Image Display**:
-- **Side-by-Side Comparison**: The updated script displays both the original and perturbed images side by side for a clearer comparison.
-
-### **Label Mapping**:
-- **JSON for Label Mapping**: The updated script uses a JSON file (`imagenet_class_index.json`) for a more structured mapping of class indices to labels, as opposed to the text file in the previous version.
-
-### **Code Structure and Documentation**:
-- **Enhanced Documentation**: The first file offers a more detailed docstring and inline comments, aiding users in understanding the code's purpose and functionality.
-- **Modern Preprocessing**: The image preprocessing in the new script uses a more modern approach with `transforms.Compose`, streamlining the process.
-
-## Reference
-- [1] EPFL LTS4 (https://www.epfl.ch/labs/lts4)
-- [2] S. Moosavi-Dezfooli, A. Fawzi, P. Frossard:
-*DeepFool: a simple and accurate method to fool deep neural networks*.  In Computer Vision and Pattern Recognition (CVPR ’16), IEEE, 2016.
+- [image1.jpg](https://commons.wikimedia.org/wiki/File:(1218241)_%22Parrot_bird%22_Psittaciformes_-_Amazon,_Brazil.jpg)
+- [image2.jpg](https://commons.wikimedia.org/wiki/File:Hot_air_balloon_IMGP0348a.jpg)
+- [image3.jpg](https://commons.wikimedia.org/wiki/File:Camera_Zenit_11.jpg)
+- [image4.jpg](https://commons.wikimedia.org/wiki/File:Chevy_Pickup_1956.jpg)
