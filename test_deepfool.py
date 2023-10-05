@@ -45,6 +45,7 @@ def display_images(original, perturbed, original_label, perturbed_label):
     ax[1].axis('off')
     plt.show()
 
+# test
 if __name__ == "__main__":
     # Setup
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
